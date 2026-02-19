@@ -33,16 +33,29 @@ class _TaskAddPageState extends State<TaskAddPage> {
           TextField( 
             controller: _controller, 
             decoration: InputDecoration( 
-              labelText: 'Entrez votre tâche', 
+              labelText: 'Entrez le title de la tâche', 
               border: OutlineInputBorder(), 
             ), 
           ), 
-          SizedBox(height: 12), 
+          SizedBox(height: 12),
+           TextField( 
+            
+            decoration: InputDecoration( 
+              labelText: 'Entrez la description(facultatif)', 
+              border: OutlineInputBorder(), 
+            ), 
+          ), 
+          SizedBox(height:20 ), 
         ElevatedButton(onPressed:ajouterTache,
         child: Text("Ajouter la tâche")),
                 SizedBox(height: 20), 
           ...taches.map((tache) => ListTile(title: 
 Text(tache))), 
+ElevatedButton(onPressed:(){
+  Navigator.pop(context);
+
+} ,
+child: Text("Retour à l'accueil"))
          
  
         ], 
