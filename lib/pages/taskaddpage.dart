@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; 
+import '../providers/task_provider.dart';
 class TaskAddPage extends StatefulWidget {
   const TaskAddPage({super.key});
 
@@ -9,62 +11,62 @@ class TaskAddPage extends StatefulWidget {
 class _TaskAddPageState extends State<TaskAddPage> {
 
   final TextEditingController _controller = TextEditingController();
-   List<String> taches = []; 
+   
  
-  void ajouterTache() { 
-    final texte = _controller.text; 
-    if (texte.isNotEmpty) { 
-      setState(() { 
-        taches.add(texte); 
-        _controller.clear(); // On vide le champ 
-      }); 
-    } 
-  } 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Add Task"),
-      ),
-      body:  Padding( 
-      padding: const EdgeInsets.all(16.0), 
-      child: Column( 
+    final provider = Provider.of<TaskProvider>(context); 
+    final taches = provider.taches; 
+    return  Scaffold( 
+      appBar: AppBar(title: Text('Mes Tâches')), 
+      body: Column( 
         children: [ 
-          TextField( 
-            controller: _controller, 
-            decoration: InputDecoration( 
-              labelText: 'Entrez le title de la tâche', 
-              border: OutlineInputBorder(), 
+          Padding( 
+            padding: EdgeInsets.all(12), 
+            child: TextField( 
+              controller: _controller, 
+              decoration: InputDecoration( 
+                labelText: 'Nouvelle tâche', 
+                suffixIcon: IconButton( 
+                  icon: Icon(Icons.add), 
+                  onPressed: () { 
+                    if (_controller.text.isNotEmpty) { 
+                      provider.ajouterTache(_controller.text); 
+                      _controller.clear(); 
+                    } 
+                  }, 
+                ), 
+              ), 
             ), 
           ), 
-          SizedBox(height: 12),
-           TextField( 
-            
-            decoration: InputDecoration( 
-              labelText: 'Entrez la description(facultatif)', 
-              border: OutlineInputBorder(), 
+          Expanded( 
+            child: ListView.builder( 
+              itemCount: taches.length, 
+              itemBuilder: (context, index) { 
+                final t = taches[index]; 
+                return ListTile( 
+                  title: Text( 
+                    t.titre, 
+                    style: TextStyle( 
+                      decoration: t.estTerminee ? 
+TextDecoration.lineThrough : null, 
+                    ), 
+                  ), 
+                  leading: Checkbox( 
+                    value: t.estTerminee, 
+                    onChanged: (_) => 
+provider.basculerEtatTache(t), 
+                  ), 
+                  trailing: IconButton( 
+                    icon: Icon(Icons.delete), 
+                    onPressed: () => provider.supprimerTache(t), 
+                  ), 
+                ); 
+              }, 
             ), 
           ), 
-          SizedBox(height:20 ), 
-        ElevatedButton(onPressed:ajouterTache,
-        child: Text("Ajouter la tâche")),
-                SizedBox(height: 20), 
-          ...taches.map((tache) => ListTile(title: 
-Text(tache))), 
-ElevatedButton(onPressed:(){
-  Navigator.pop(context);
-
-} ,
-child: Text("Retour à l'accueil"))
-         
- 
-        ], 
-      ), 
-    ),
-   
-      
-
-        
-      );
-  }
-}
+], 
+), 
+); 
+} 
+} 

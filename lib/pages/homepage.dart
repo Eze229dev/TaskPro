@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:taskprof/pages/taskaddpage.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -12,7 +13,7 @@ class HomePage extends StatelessWidget {
               child: const Text("Get Started"),
             );
     return Scaffold(
-      backgroundColor: Colors.amber,
+      
       appBar: AppBar(
         leading: Icon(Icons.supervised_user_circle),
         actions: [
@@ -20,11 +21,11 @@ class HomePage extends StatelessWidget {
           Icon(Icons.more_vert)
 
         ],
-        backgroundColor:Colors.amber, 
+       
         
         title: const Text("TaskPro",
         style: TextStyle(
-          color: Colors.blue,
+          color: Colors.green,
           fontSize: 30,
 
 
